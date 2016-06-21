@@ -8814,9 +8814,10 @@ Sample point 2 predicted to be in Cluster 1
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer:</strong> 
-In A/B tests, we should construct a hypothesis first, which we should assume that the consumption will be different with 5 days to 3 days delivery service.
-In order to have a good spliting, we can use Segment 0 and Segment 1 to be the two different set, for example segment 0 is using 5 days delivery service and segment 1 is using 3 days service.</p>
+<p><strong>Answer:</strong></p>
+<p>In A/B tests, we should construct a hypothesis first, which we should assume that the consumption will be different with 5 days to 3 days delivery service.</p>
+<p>In order to have a good spliting, we should divide Segment 0 and Segment 1 as two different in order to make me fair as these two segment have a significant difference.</p>
+<p>In each segment, we can split it out as two group, control and experiments groups, one using the orignal 5 days service and another using 3 days services. As the features is chi square distribution. i will suggest the customers who is chosed to be experiemts groups the features should near the center points of each segment in order to make two groups to be highly similar.</p>
 <p>Then we can compare the change of the comsumption in 3 days service to know whehther it is worth to change to 3 days service.</p>
 
 </div>
@@ -8838,11 +8839,8 @@ In order to have a good spliting, we can use Segment 0 and Segment 1 to be the t
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer:</strong></p>
-<p>In A/B tests, we should construct a hypothesis first, which we should assume that the consumption will be different with 5 days to 3 days delivery service.</p>
-<p>In order to have a good spliting, we should divide Segment 0 and Segment 1 as two different in order to make me fair as these two segment have a significant difference.</p>
-<p>In each segment, we can split it out as two group, control and experiments groups, one using the orignal 5 days service and another using 3 days services. As the features is chi square distribution. i will suggest the customers who is chosed to be experiemts groups the features should near the center points of each segment in order to make two groups to be highly similar.</p>
-<p>Then we can compare the change of the comsumption in 3 days service to know whehther it is worth to change to 3 days service.</p>
+<p><strong>Answer:</strong> 
+We can utlize the result in this Cluster model to be one of the feature. Utlizing the result we get a new feature by labeling the data point as Cluster 0 and 1. With this new feature, it might help wholesale to make a supervised learning analysis</p>
 
 </div>
 </div>
