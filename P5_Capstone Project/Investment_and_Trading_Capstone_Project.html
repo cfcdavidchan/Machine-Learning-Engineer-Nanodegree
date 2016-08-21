@@ -176,14 +176,14 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This is a project about prediting index or stock price in financial market by using machine learning. In this project, we will ulitlze Yahoo Finance API to obtain the data we need. After that, pandas and sklearn library is going to be used in order to build in a machine learning that use to forecast the future price.</p>
-<p>In this project, there are two parts totally. The first part is about defining some necessary code in this project. These defined code is including three main function.</p>
+<p>This is a project about predicting index or stock price in financial market by using machine learning. In this project, we will ulitlze Yahoo Finance API to obtain the data we need. After that, pandas and sklearn library is going to be used in order to build in a machine learning program that is ulitized to forecast the future price.</p>
+<p>In this project, there are two parts totally. The first part is about defining some necessary code for this project. These defined code are including three main functions.</p>
 <ol>
 <li>Accessing Yahoo Finance API to obtain all necessary data, then transfer it into a dataframe</li>
 <li>Ploting data with some useful annotation and common used indicator.</li>
 <li>Learning data by using LinearRegression function from sklearn.</li>
 </ol>
-<p>In the second part, it will show how to use all the function. In this part, I will initally work out some examples of accessing the data by the defined function, explaining how to use it. After that I will try to predict the stock price after it.</p>
+<p>In the second part, it will show how to use all the function. In this part, I will initally work out some examples of accessing the data by the defined function, explaining how to use it. After that I will try to predict the stock price.</p>
 
 </div>
 </div>
@@ -208,10 +208,12 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">yahoo_finance</span> <span class="kn">import</span> <span class="n">Share</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">## Importing all necessary library and API</span>
+
+<span class="kn">from</span> <span class="nn">yahoo_finance</span> <span class="kn">import</span> <span class="n">Share</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">datetime</span> <span class="kn">as</span> <span class="nn">dt</span>
@@ -225,25 +227,8 @@ div#notebook {
 <span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">linear_model</span>
 <span class="kn">from</span> <span class="nn">sklearn.grid_search</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;dark_background&#39;</span><span class="p">)</span>
-<span class="c1">#%matplotlib osx</span>
-<span class="c1">#%matplotlib notebook</span>
-<span class="c1">#%matplotlib inline  </span>
-<span class="c1">#plt.ioff()</span>
-<span class="c1">#getting all the styke in matplotlib</span>
-<span class="c1">#print plt.style.available</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+<span class="c1">#style.use(&#39;dark_background&#39;)</span>
 </pre></div>
 
 </div>
@@ -262,15 +247,19 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="n">symbols</span><span class="p">,</span><span class="n">start_date</span><span class="p">,</span><span class="n">end_date</span><span class="p">):</span>
-    <span class="c1">## Getting data from yahoo finance</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">## Getting data from yahoo finance</span>
+
+<span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="n">symbols</span><span class="p">,</span><span class="n">start_date</span><span class="p">,</span><span class="n">end_date</span><span class="p">):</span> 
+    <span class="c1">#creating a dataframe from starting date to ending date</span>
     <span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span><span class="n">end_date</span><span class="p">)</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">dates</span><span class="p">)</span>
+    <span class="c1"># adding HSI into the data if it is missing in the list of stock</span>
     <span class="k">if</span> <span class="s1">&#39;^HSI&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">symbols</span><span class="p">:</span>
         <span class="n">symbols</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;^HSI&#39;</span><span class="p">)</span>
+    <span class="c1"># joining all stock data into the dataframe</span>
     <span class="k">for</span> <span class="n">symbol</span> <span class="ow">in</span> <span class="n">symbols</span><span class="p">:</span>
         <span class="n">df_tmp</span> <span class="o">=</span> <span class="n">Share</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span><span class="o">.</span><span class="n">get_historical</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span><span class="n">end_date</span><span class="p">)</span>
         <span class="n">df_tmp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df_tmp</span><span class="p">)</span>
@@ -304,16 +293,18 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">plot_stock</span><span class="p">(</span><span class="n">df_data</span><span class="p">,</span> <span class="n">target_stock</span><span class="p">,</span> <span class="n">annotate_switch</span><span class="p">):</span>
-    
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#plotting stock data into graph from dataframe</span>
+<span class="c1">#two model here, one is plotting all data, another is to plot the data that the user want </span>
+<span class="k">def</span> <span class="nf">plot_stock</span><span class="p">(</span><span class="n">df_data</span><span class="p">,</span> <span class="n">target_stock</span><span class="p">,</span> <span class="n">annotate_switch</span><span class="p">):</span>
+    <span class="c1"># plotting all data</span>
     <span class="k">if</span> <span class="n">target_stock</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">df_data</span>
         <span class="n">symbols</span> <span class="o">=</span> <span class="n">df_data</span><span class="o">.</span><span class="n">columns</span>
         <span class="n">title_name</span> <span class="o">=</span> <span class="s1">&#39;All Stock&#39;</span>
-    <span class="k">else</span><span class="p">:</span>
+    <span class="k">else</span><span class="p">:</span> <span class="c1"># plotting the stock that the user want</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">df_data</span><span class="p">[</span><span class="n">target_stock</span><span class="p">]</span>
         <span class="n">symbols</span> <span class="o">=</span> <span class="n">target_stock</span>
         <span class="n">title_name</span> <span class="o">=</span> <span class="s1">&#39;target_stock&#39;</span>
@@ -322,6 +313,8 @@ div#notebook {
     <span class="n">ax</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span> <span class="n">title_name</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Date&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span> <span class="mi">15</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Price&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span> <span class="mi">15</span><span class="p">)</span>
+    
+    <span class="c1"># adding annotate that will help to understand the data in graph more</span>
     <span class="k">if</span> <span class="n">annotate_switch</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
         <span class="n">bbox_props</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span> <span class="n">boxstyle</span> <span class="o">=</span> <span class="s1">&#39;larrow,pad=0.2&#39;</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span> <span class="s2">&quot;y&quot;</span><span class="p">,)</span>
         <span class="k">for</span> <span class="n">symbol</span> <span class="ow">in</span> <span class="n">symbols</span><span class="p">:</span>
@@ -330,37 +323,7 @@ div#notebook {
                         <span class="n">color</span><span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span> <span class="n">bbox_props</span><span class="p">)</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">left</span><span class="o">=</span> <span class="mf">0.04</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span> <span class="mf">0.95</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span> <span class="mf">0.95</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span> <span class="mf">0.1</span> <span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-        
-        
-<span class="c1">#         ax = df_data.plot(title= &#39;All Stock&#39;, fontsize= 10)</span>
-<span class="c1">#         ax.set_xlabel(&#39;Date&#39;, fontsize= 15)</span>
-<span class="c1">#         ax.set_ylabel(&#39;Price&#39;, fontsize= 15)</span>
-<span class="c1">#         if annotate_switch == True:</span>
-<span class="c1">#             bbox_props = dict( boxstyle = &#39;larrow,pad=0.2&#39;, fc= &quot;k&quot;, ec= &quot;y&quot;,)</span>
-<span class="c1">#             for symbol in df_data.columns:</span>
-<span class="c1">#                 ax.annotate( str(df_data[symbol][-1]), ((data.index[-1]), df_data[symbol][-1]),</span>
-<span class="c1">#                             xytext= (data.index[-1]+ dt.timedelta(days=5), df_data[symbol][-1]),</span>
-<span class="c1">#                             color= &#39;y&#39;, fontweight=&#39;bold&#39;, fontsize = 10, bbox= bbox_props)</span>
-    
-<span class="c1">#         plt.subplots_adjust(left= 0.04, bottom= 0.1, right= 0.95, top= 0.95, wspace= 0, hspace= 0.1 )</span>
-<span class="c1">#         plt.show()</span>
-        
-        
-<span class="c1">#     else:</span>
-<span class="c1">#         ax = df_data[target_stock].plot(title= target_stock, fontsize= 10)</span>
-<span class="c1">#         ax.set_xlabel(&#39;Date&#39;, fontsize= 15)</span>
-<span class="c1">#         ax.set_ylabel(&#39;Price&#39;, fontsize= 15)</span>
-<span class="c1">#         if annotate_switch == True:</span>
-<span class="c1">#             bbox_props = dict( boxstyle = &#39;larrow,pad=0.2&#39;, fc= &quot;k&quot;, ec= &quot;y&quot;,)</span>
-<span class="c1">#             for symbol in target_stock:</span>
-<span class="c1">#                 ax.annotate( str(df_data[symbol][-1]), ((data.index[-1]), df_data[symbol][-1]),</span>
-<span class="c1">#                              xytext= (data.index[-1]+ dt.timedelta(days=5), df_data[symbol][-1]),</span>
-<span class="c1">#                             color= &#39;y&#39;, fontweight=&#39;bold&#39;, fontsize = 10, bbox= bbox_props)</span>
-
-<span class="c1">#         plt.subplots_adjust(left= 0.04, bottom= 0.1, right= 0.95, top= 0.95, wspace= 0, hspace= 0.1 )</span>
-<span class="c1">#         plt.show()</span>
-    
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>   
 </pre></div>
 
 </div>
@@ -370,10 +333,12 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">plot_datasubplot</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#plotting all data into different subplot</span>
+
+<span class="k">def</span> <span class="nf">plot_datasubplot</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subplots</span><span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="n">secondary_y</span><span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Date&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">left</span><span class="o">=</span> <span class="mf">0.03</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span> <span class="mf">0.98</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span> <span class="mf">0.95</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span> <span class="mf">0.1</span> <span class="p">)</span>
@@ -387,10 +352,12 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[78]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">log_correlation_finder</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span><span class="n">target</span><span class="p">,</span><span class="n">critical_value</span><span class="p">):</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># converting all data into log and finding the data with high correlation</span>
+
+<span class="k">def</span> <span class="nf">log_correlation_finder</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span><span class="n">target</span><span class="p">,</span><span class="n">critical_value</span><span class="p">):</span>
     <span class="n">log_data_dataframe</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
     <span class="n">high_corr</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">log_data_dataframe</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
@@ -407,16 +374,17 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">ema</span><span class="p">(</span><span class="n">stock</span><span class="p">,</span><span class="n">window</span><span class="p">):</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># calculating the EMA of the stock</span>
+
+<span class="k">def</span> <span class="nf">ema</span><span class="p">(</span><span class="n">stock</span><span class="p">,</span><span class="n">window</span><span class="p">):</span>
     <span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">stock</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="nb">str</span><span class="p">(</span><span class="n">stock</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-<span class="c1">#    dates = pd.date_range(&#39;2015-07-01&#39;,&#39;2016-07-31&#39;)</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">dates</span><span class="p">)</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;{}_ema({})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stock</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">window</span><span class="p">)</span>
     <span class="n">df</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">moments</span><span class="o">.</span><span class="n">ewma</span><span class="p">(</span><span class="n">stock</span><span class="p">,</span><span class="n">window</span><span class="p">)</span>
-<span class="c1">#    df = df.join(df[name])</span>
+
     <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">df</span>
 </pre></div>
@@ -428,10 +396,12 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">rsi</span><span class="p">(</span><span class="n">stock</span><span class="p">,</span><span class="n">window</span><span class="p">):</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># calculating the RSI of the stock</span>
+
+<span class="k">def</span> <span class="nf">rsi</span><span class="p">(</span><span class="n">stock</span><span class="p">,</span><span class="n">window</span><span class="p">):</span>
     <span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">stock</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="nb">str</span><span class="p">(</span><span class="n">stock</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">dates</span><span class="p">)</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;{}_RSI({})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stock</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">window</span><span class="p">)</span>
@@ -450,7 +420,7 @@ div#notebook {
     <span class="n">d</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">index</span><span class="p">[:(</span><span class="n">window</span><span class="o">-</span><span class="mi">1</span><span class="p">)])</span>
     <span class="n">rs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">moments</span><span class="o">.</span><span class="n">ewma</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">com</span><span class="o">=</span><span class="n">window</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">adjust</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">/</span><span class="n">pd</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">moments</span><span class="o">.</span><span class="n">ewma</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">com</span><span class="o">=</span><span class="n">window</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">adjust</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
     <span class="n">df</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">-</span> <span class="mi">100</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">rs</span><span class="p">)</span>
-<span class="c1">#    df = pd.DataFrame(df)</span>
+
     <span class="k">return</span> <span class="n">df</span>
 </pre></div>
 
@@ -461,11 +431,12 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">graph_with_indicator</span><span class="p">(</span><span class="n">stock</span><span class="p">):</span>
-    <span class="c1">#5,8,13</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Plotting a stock data with EMA and RSI</span>
+
+<span class="k">def</span> <span class="nf">graph_with_indicator</span><span class="p">(</span><span class="n">stock</span><span class="p">):</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">stock</span><span class="p">)</span>
     <span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">windows</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">13</span><span class="p">]</span>
@@ -508,8 +479,6 @@ div#notebook {
     <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">left</span><span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span> <span class="mf">0.75</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span> <span class="mf">0.9</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span> <span class="mf">0.1</span> <span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
     
-<span class="c1">#     df = df.join(stock_rsi)</span>
-<span class="c1">#     df = df.iloc[14:,:]</span>
     <span class="k">return</span> <span class="n">df</span>
 </pre></div>
 
@@ -529,12 +498,14 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[85]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">split_data</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#splitting data into trainning set and testing set</span>
+
+<span class="k">def</span> <span class="nf">split_data</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
     <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">splite_rate</span> <span class="o">=</span> <span class="mf">0.3</span> 
+    <span class="n">splite_rate</span> <span class="o">=</span> <span class="mf">0.7</span> 
     <span class="n">splite</span> <span class="o">=</span> <span class="n">splite_rate</span> <span class="o">*</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>    
     <span class="n">days</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">-</span>  <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">days</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">df</span><span class="p">[</span><span class="s1">&#39;days&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">days</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
@@ -552,10 +523,12 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[86]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">performance_metric</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_predict</span><span class="p">):</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># determining the performance of the machine learning algorithms</span>
+
+<span class="k">def</span> <span class="nf">performance_metric</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_predict</span><span class="p">):</span>
     <span class="n">score</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_predict</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">score</span>
 </pre></div>
@@ -567,27 +540,45 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[87]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">fit_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Tunes a decision tree regressor model using GridSearchCV on the input data X </span>
-<span class="sd">        and target labels y and returns this optimal model. &quot;&quot;&quot;</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">predict_outcome</span><span class="p">(</span><span class="n">reg</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>   
+    <span class="c1">#obtain the r square </span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
 
+
+<span class="k">def</span> <span class="nf">train_predict</span><span class="p">(</span><span class="n">reg</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">):</span>
+    <span class="c1">#Train the regression model </span>
+    <span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>    
+    <span class="c1"># Print the results of prediction for both training and testing</span>
+    <span class="k">print</span> <span class="s2">&quot;R square for training set: {:.4f}.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">predict_outcome</span><span class="p">(</span><span class="n">reg</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+    <span class="k">print</span> <span class="s2">&quot;R square for test set: {:.4f}.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">predict_outcome</span><span class="p">(</span><span class="n">reg</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># fiting the modeling with LinearRegression</span>
+
+<span class="k">def</span> <span class="nf">fit_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="c1"># Create a Linear regressor object</span>
     <span class="n">regressor</span> <span class="o">=</span> <span class="n">linear_model</span><span class="o">.</span><span class="n">LinearRegression</span><span class="p">()</span>
-
     <span class="c1"># Set up the parameters we wish to tune</span>
     <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fit_intercept&#39;</span><span class="p">:[</span><span class="bp">True</span><span class="p">,</span><span class="bp">False</span><span class="p">],</span> <span class="s1">&#39;normalize&#39;</span><span class="p">:[</span><span class="bp">True</span><span class="p">,</span><span class="bp">False</span><span class="p">],</span> <span class="s1">&#39;copy_X&#39;</span><span class="p">:[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">]}</span>
-
-    <span class="c1"># Make an appropriate scoring function</span>
     <span class="n">scoring_function</span> <span class="o">=</span> <span class="n">make_scorer</span><span class="p">(</span><span class="n">performance_metric</span><span class="p">)</span>
-
+    
     <span class="c1"># Make the GridSearchCV object</span>
     <span class="n">reg</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">regressor</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">scoring_function</span><span class="p">)</span>
-
-    <span class="c1"># Fit the learner to the data to obtain the optimal model with tuned parameters</span>
     <span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-
     <span class="c1"># Return the optimal model</span>
     <span class="k">return</span> <span class="n">reg</span><span class="o">.</span><span class="n">best_estimator_</span>
 </pre></div>
@@ -599,10 +590,13 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[93]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">graph_learing</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">):</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># ploting the result with testing and training result</span>
+
+<span class="k">def</span> <span class="nf">graph_learing</span><span class="p">(</span><span class="n">reg</span><span class="p">,</span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">):</span>
+    <span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
     <span class="n">train_value</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
     <span class="n">test_value</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
     <span class="n">Y</span> <span class="o">=</span> <span class="n">y_test</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
@@ -610,7 +604,7 @@ div#notebook {
     <span class="n">train_value</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">train_value</span><span class="p">,</span><span class="n">index</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;train_value&#39;</span><span class="p">])</span>
     <span class="n">test_value</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">test_value</span><span class="p">,</span><span class="n">index</span> <span class="o">=</span> <span class="n">y_test</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;test_value&#39;</span><span class="p">])</span>
 
-    <span class="n">predict</span> <span class="o">=</span> <span class="n">test_value</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_value</span><span class="p">)</span>
+    <span class="n">predict</span> <span class="o">=</span> <span class="n">train_value</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_value</span><span class="p">)</span>
     <span class="n">predict</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">predict</span><span class="p">)</span>
     <span class="n">R_2</span> <span class="o">=</span> <span class="n">performance_metric</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">test_value</span><span class="p">)</span>
     
@@ -621,6 +615,7 @@ div#notebook {
     
     <span class="n">predict</span><span class="p">[</span><span class="s1">&#39;error_test&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">predict</span><span class="p">[</span><span class="s1">&#39;test_value&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">predict</span><span class="p">[</span><span class="n">predict</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span><span class="o">/</span><span class="n">predict</span><span class="p">[</span><span class="n">predict</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
     <span class="n">predict</span><span class="p">[</span><span class="s1">&#39;error_train&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">predict</span><span class="p">[</span><span class="s1">&#39;train_value&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">predict</span><span class="p">[</span><span class="n">predict</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span><span class="o">/</span><span class="n">predict</span><span class="p">[</span><span class="n">predict</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    
     
     
     <span class="n">ax</span> <span class="o">=</span> <span class="n">predict</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span> <span class="n">predict</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
@@ -677,7 +672,310 @@ div#notebook {
 <li>ending date of the data we need </li>
 </ol>
 <p>Finally, we will have a dataframe that data will be the index and stock price will be the columns of this dataframe.</p>
-<p>In this example, I try to obtain the 5 stock price data from Hong Kong, which are Hang Seng index(^HSCE), Tencent(0700.hk), HSBC HOLDINGS(0005.hk), AIA(1299.hk) and China Mobile(0941.hk). Also the preiod I choose is from 2015-07-01 to 2016-07-31. After that, I will save the dataframe named 'data'</p>
+<p>In this example, I try to obtain the 5 stock price data from Hong Kong, which are Hang Seng China enterprises Index(^HSCE), HSBC HOLDINGS(0005.hk), AIA(1299.hk) and China Mobile(0941.hk). Also the preiod I choose is from 2015-07-01 to 2016-07-31. After that, I will save the dataframe named 'data'</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">stock</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;^HSCE&#39;</span><span class="p">,</span><span class="s1">&#39;0005.hk&#39;</span><span class="p">,</span><span class="s1">&#39;0700.hk&#39;</span><span class="p">,</span><span class="s1">&#39;1299.hk&#39;</span><span class="p">,</span><span class="s1">&#39;0941.hk&#39;</span><span class="p">]</span>
+<span class="n">data</span> <span class="o">=</span>  <span class="n">get_data</span><span class="p">(</span><span class="n">stock</span><span class="p">,</span><span class="s1">&#39;2015-07-01&#39;</span><span class="p">,</span><span class="s1">&#39;2016-07-01&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>^HSI</th>
+      <th>^HSCE</th>
+      <th>0005.hk</th>
+      <th>0700.hk</th>
+      <th>1299.hk</th>
+      <th>0941.hk</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2015-07-02</th>
+      <td>26282.32</td>
+      <td>12784.65</td>
+      <td>65.92</td>
+      <td>156.03</td>
+      <td>50.74</td>
+      <td>95.86</td>
+    </tr>
+    <tr>
+      <th>2015-07-03</th>
+      <td>26064.11</td>
+      <td>12608.98</td>
+      <td>65.92</td>
+      <td>154.64</td>
+      <td>50.00</td>
+      <td>95.52</td>
+    </tr>
+    <tr>
+      <th>2015-07-06</th>
+      <td>25236.28</td>
+      <td>12231.43</td>
+      <td>64.36</td>
+      <td>146.06</td>
+      <td>48.53</td>
+      <td>92.13</td>
+    </tr>
+    <tr>
+      <th>2015-07-07</th>
+      <td>24975.31</td>
+      <td>11827.30</td>
+      <td>64.88</td>
+      <td>144.27</td>
+      <td>49.07</td>
+      <td>91.51</td>
+    </tr>
+    <tr>
+      <th>2015-07-08</th>
+      <td>23516.56</td>
+      <td>11107.30</td>
+      <td>62.32</td>
+      <td>134.40</td>
+      <td>46.18</td>
+      <td>85.96</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Next, we will try to know more detail about the dataframe, like how many trading days are there and the max and min price of each asset</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">trading_days</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">HSI_highest</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;^HSI&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">HSI_lowest</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;^HSI&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">HSCE_highest</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;^HSCE&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">HSCE_lowest</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;^HSCE&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">HSBC_highest</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;0005.hk&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">HSBC_lowest</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;0005.hk&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">Tecent_highest</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;0700.hk&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">Tecent_lowest</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;0700.hk&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">AIA_highest</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;1299.hk&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">AIA_lowest</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;1299.hk&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">ChinaMobile_highest</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;0941.hk&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">ChinaMobile_lowest</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;0941.hk&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+
+<span class="k">print</span> <span class="s1">&#39;Total trading days are {} days </span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trading_days</span><span class="p">)</span>
+<span class="k">print</span> <span class="s1">&#39;The highest level of HSI is {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">HSI_highest</span><span class="p">)</span>
+<span class="k">print</span> <span class="s1">&#39;The lowest level of HSI is {} </span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">HSI_lowest</span><span class="p">)</span>
+<span class="k">print</span> <span class="s1">&#39;The highest level of HSCE is {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">HSCE_highest</span><span class="p">)</span>
+<span class="k">print</span> <span class="s1">&#39;The lowest level of HSCE is {} </span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">HSCE_lowest</span><span class="p">)</span>
+<span class="k">print</span> <span class="s1">&#39;The highest price of 0005.hk is {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">HSBC_highest</span><span class="p">)</span>
+<span class="k">print</span> <span class="s1">&#39;The lowest price of 0005.hk is {}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">HSBC_lowest</span><span class="p">)</span>
+<span class="k">print</span> <span class="s1">&#39;The highest price of 0700.hk is {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Tecent_highest</span><span class="p">)</span>
+<span class="k">print</span> <span class="s1">&#39;The lowest price of 0700.hk is {}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Tecent_lowest</span><span class="p">)</span>
+<span class="k">print</span> <span class="s1">&#39;The highest price of 1299.hk is {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">AIA_highest</span><span class="p">)</span>
+<span class="k">print</span> <span class="s1">&#39;The lowest price of 1299.hk is {}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">AIA_lowest</span><span class="p">)</span>
+<span class="k">print</span> <span class="s1">&#39;The highest price of 0941.hk is {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ChinaMobile_highest</span><span class="p">)</span>
+<span class="k">print</span> <span class="s1">&#39;The lowest price of 0941.hk is {}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ChinaMobile_lowest</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Total trading days are 248 days 
+
+The highest level of HSI is 26282.32
+The lowest level of HSI is 18319.58 
+
+The highest level of HSCE is 12784.65
+The lowest level of HSCE is 7505.37 
+
+The highest price of 0005.hk is 67.68
+The lowest price of 0005.hk is 44.98
+
+The highest price of 0700.hk is 177.1
+The lowest price of 0700.hk is 124.63
+
+The highest price of 1299.hk is 50.74
+The lowest price of 1299.hk is 36.66
+
+The highest price of 0941.hk is 98.24
+The lowest price of 0941.hk is 77.41
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This section is going to find out the correclation between each asset</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[18]:</div>
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>^HSI</th>
+      <th>^HSCE</th>
+      <th>0005.hk</th>
+      <th>0700.hk</th>
+      <th>1299.hk</th>
+      <th>0941.hk</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>^HSI</th>
+      <td>1.000000</td>
+      <td>0.987888</td>
+      <td>0.902781</td>
+      <td>-0.046186</td>
+      <td>0.834383</td>
+      <td>0.879268</td>
+    </tr>
+    <tr>
+      <th>^HSCE</th>
+      <td>0.987888</td>
+      <td>1.000000</td>
+      <td>0.918940</td>
+      <td>-0.151924</td>
+      <td>0.764996</td>
+      <td>0.867833</td>
+    </tr>
+    <tr>
+      <th>0005.hk</th>
+      <td>0.902781</td>
+      <td>0.918940</td>
+      <td>1.000000</td>
+      <td>-0.365464</td>
+      <td>0.673328</td>
+      <td>0.798952</td>
+    </tr>
+    <tr>
+      <th>0700.hk</th>
+      <td>-0.046186</td>
+      <td>-0.151924</td>
+      <td>-0.365464</td>
+      <td>1.000000</td>
+      <td>0.382243</td>
+      <td>-0.121674</td>
+    </tr>
+    <tr>
+      <th>1299.hk</th>
+      <td>0.834383</td>
+      <td>0.764996</td>
+      <td>0.673328</td>
+      <td>0.382243</td>
+      <td>1.000000</td>
+      <td>0.656627</td>
+    </tr>
+    <tr>
+      <th>0941.hk</th>
+      <td>0.879268</td>
+      <td>0.867833</td>
+      <td>0.798952</td>
+      <td>-0.121674</td>
+      <td>0.656627</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Delecting 700.hk from dataframe as it is not really related to hang seng index</p>
 
 </div>
 </div>
@@ -687,11 +985,81 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">stock</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;^HSCE&#39;</span><span class="p">,</span><span class="s1">&#39;0700.hk&#39;</span><span class="p">,</span><span class="s1">&#39;0005.hk&#39;</span><span class="p">,</span><span class="s1">&#39;1299.hk&#39;</span><span class="p">,</span><span class="s1">&#39;0941.hk&#39;</span><span class="p">]</span>
-<span class="n">data</span> <span class="o">=</span>  <span class="n">get_data</span><span class="p">(</span><span class="n">stock</span><span class="p">,</span><span class="s1">&#39;2015-07-01&#39;</span><span class="p">,</span><span class="s1">&#39;2016-07-31&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;0700.hk&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>^HSI</th>
+      <th>^HSCE</th>
+      <th>0005.hk</th>
+      <th>1299.hk</th>
+      <th>0941.hk</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2015-07-02</th>
+      <td>26282.32</td>
+      <td>12784.65</td>
+      <td>65.92</td>
+      <td>50.74</td>
+      <td>95.86</td>
+    </tr>
+    <tr>
+      <th>2015-07-03</th>
+      <td>26064.11</td>
+      <td>12608.98</td>
+      <td>65.92</td>
+      <td>50.00</td>
+      <td>95.52</td>
+    </tr>
+    <tr>
+      <th>2015-07-06</th>
+      <td>25236.28</td>
+      <td>12231.43</td>
+      <td>64.36</td>
+      <td>48.53</td>
+      <td>92.13</td>
+    </tr>
+    <tr>
+      <th>2015-07-07</th>
+      <td>24975.31</td>
+      <td>11827.30</td>
+      <td>64.88</td>
+      <td>49.07</td>
+      <td>91.51</td>
+    </tr>
+    <tr>
+      <th>2015-07-08</th>
+      <td>23516.56</td>
+      <td>11107.30</td>
+      <td>62.32</td>
+      <td>46.18</td>
+      <td>85.96</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -721,7 +1089,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">plot_stock</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="s1">&#39;all&#39;</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">plot_datasubplot</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -734,7 +1102,20 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">plot_stock</span><span class="p">(</span><span class="n">data</span><span class="p">,[</span><span class="s1">&#39;0700.hk&#39;</span><span class="p">,</span><span class="s1">&#39;0005.hk&#39;</span><span class="p">],</span><span class="bp">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">plot_stock</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="s1">&#39;all&#39;</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">plot_stock</span><span class="p">(</span><span class="n">data</span><span class="p">,[</span><span class="s1">&#39;1299.hk&#39;</span><span class="p">,</span><span class="s1">&#39;0005.hk&#39;</span><span class="p">],</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -751,19 +1132,6 @@ div#notebook {
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">plot_datasubplot</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -783,7 +1151,7 @@ Here are the websites of how these indicator to be useful in stock trading.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[75]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">HSI</span> <span class="o">=</span>  <span class="n">graph_with_indicator</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;^HSI&#39;</span><span class="p">])</span>
@@ -800,19 +1168,19 @@ Here are the websites of how these indicator to be useful in stock trading.</p>
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>C:\Anaconda2\lib\site-packages\ipykernel\__main__.py:6: FutureWarning: pd.ewm_mean is deprecated for Series and will be removed in a future version, replace with 
+<pre>C:\Anaconda2\lib\site-packages\ipykernel\__main__.py:7: FutureWarning: pd.ewm_mean is deprecated for Series and will be removed in a future version, replace with 
 	Series.ewm(ignore_na=False,min_periods=0,adjust=True,com=5).mean()
-C:\Anaconda2\lib\site-packages\ipykernel\__main__.py:6: FutureWarning: pd.ewm_mean is deprecated for Series and will be removed in a future version, replace with 
+C:\Anaconda2\lib\site-packages\ipykernel\__main__.py:7: FutureWarning: pd.ewm_mean is deprecated for Series and will be removed in a future version, replace with 
 	Series.ewm(ignore_na=False,min_periods=0,adjust=True,com=8).mean()
-C:\Anaconda2\lib\site-packages\ipykernel\__main__.py:6: FutureWarning: pd.ewm_mean is deprecated for Series and will be removed in a future version, replace with 
+C:\Anaconda2\lib\site-packages\ipykernel\__main__.py:7: FutureWarning: pd.ewm_mean is deprecated for Series and will be removed in a future version, replace with 
 	Series.ewm(ignore_na=False,min_periods=0,adjust=True,com=13).mean()
-C:\Anaconda2\lib\site-packages\ipykernel\__main__.py:18: FutureWarning: pd.ewm_mean is deprecated for Series and will be removed in a future version, replace with 
+C:\Anaconda2\lib\site-packages\ipykernel\__main__.py:20: FutureWarning: pd.ewm_mean is deprecated for Series and will be removed in a future version, replace with 
 	Series.ewm(ignore_na=False,min_periods=0,adjust=False,com=13).mean()
 </pre>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[75]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
@@ -886,7 +1254,7 @@ C:\Anaconda2\lib\site-packages\ipykernel\__main__.py:18: FutureWarning: pd.ewm_m
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[83]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">log_data_corr</span><span class="p">,</span> <span class="n">high_corr_asset</span> <span class="o">=</span> <span class="n">log_correlation_finder</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="s1">&#39;0005.hk&#39;</span><span class="p">,</span><span class="mf">0.8</span><span class="p">)</span>
@@ -903,13 +1271,12 @@ C:\Anaconda2\lib\site-packages\ipykernel\__main__.py:18: FutureWarning: pd.ewm_m
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>             ^HSI     ^HSCE   0700.hk   0005.hk   1299.hk   0941.hk
-^HSI     1.000000  0.977592 -0.030809  0.876633  0.796233  0.845834
-^HSCE    0.977592  1.000000 -0.199795  0.916687  0.679615  0.785587
-0700.hk -0.030809 -0.199795  1.000000 -0.422210  0.476924  0.077976
-0005.hk  0.876633  0.916687 -0.422210  1.000000  0.551244  0.682382
-1299.hk  0.796233  0.679615  0.476924  0.551244  1.000000  0.687239
-0941.hk  0.845834  0.785587  0.077976  0.682382  0.687239  1.000000 
+<pre>             ^HSI     ^HSCE   0005.hk   1299.hk   0941.hk
+^HSI     1.000000  0.987888  0.902781  0.834383  0.879268
+^HSCE    0.987888  1.000000  0.918940  0.764996  0.867833
+0005.hk  0.902781  0.918940  1.000000  0.673328  0.798952
+1299.hk  0.834383  0.764996  0.673328  1.000000  0.656627
+0941.hk  0.879268  0.867833  0.798952  0.656627  1.000000 
 [&apos;^HSI&apos;, &apos;^HSCE&apos;]
 </pre>
 </div>
@@ -935,6 +1302,58 @@ C:\Anaconda2\lib\site-packages\ipykernel\__main__.py:18: FutureWarning: pd.ewm_m
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>split is defined to split data into four dataset, X_train, X_test, y_train, y_test, which has 0.3 splitting rate.</p>
 <p><strong>Note that the first column of the dataframe will the y value, it means that the stock we want to predict must be placing in the first column.</strong></p>
+<p>Then, we will try to train two models, linear regression and KNeighbors Regression. After fitting the models, a calcuation of R square will be done in both training and test data in order to choose the best model.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="o">=</span> <span class="n">split_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">reg_A</span> <span class="o">=</span> <span class="n">linear_model</span><span class="o">.</span><span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">reg_B</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">()</span>
+
+<span class="k">print</span> <span class="s1">&#39;LinearRegression:&#39;</span>
+<span class="n">train_predict</span><span class="p">(</span><span class="n">reg_A</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="k">print</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+<span class="k">print</span> <span class="s1">&#39;DecisionTreeRegressor:&#39;</span>
+<span class="n">train_predict</span><span class="p">(</span><span class="n">reg_B</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>LinearRegression:
+R square for training set: 0.9936.
+R square for test set: 0.8709.
+
+
+DecisionTreeRegressor:
+R square for training set: 1.0000.
+R square for test set: 0.2004.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>fit_model is using LinearRegression from sklearn to learn the data and using R square to be our performance metric , Finally it wll return the best estimator.</p>
 <p>in the following example, we will try to predict Hang Seng Index in our dataframe by using these function</p>
 
@@ -943,11 +1362,11 @@ C:\Anaconda2\lib\site-packages\ipykernel\__main__.py:18: FutureWarning: pd.ewm_m
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[88]:</div>
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="o">=</span> <span class="n">split_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">reg</span> <span class="o">=</span> <span class="n">fit_model</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#reg = fit_model_LinearRegression(X_train, y_train)</span>
+<span class="n">reg</span> <span class="o">=</span><span class="n">fit_model</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 <span class="k">print</span> <span class="n">reg</span><span class="o">.</span><span class="n">get_params</span><span class="p">()</span>
 </pre></div>
 
@@ -985,10 +1404,10 @@ Finally, the function will also return the dataframe of the stock price and the 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[97]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">graph_learing</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">graph_learing</span><span class="p">(</span><span class="n">reg</span><span class="p">,</span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
 <span class="n">result</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
@@ -1002,12 +1421,12 @@ Finally, the function will also return the dataframe of the stock price and the 
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>R Square =  0.950497621541
+<pre>R Square =  0.870925617499
 </pre>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[97]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[42]:</div>
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
@@ -1028,63 +1447,63 @@ Finally, the function will also return the dataframe of the stock price and the 
   </thead>
   <tbody>
     <tr>
-      <th>2015-10-28</th>
-      <td>22956.57</td>
-      <td>23025.450181</td>
+      <th>2016-03-14</th>
+      <td>20435.34</td>
+      <td>20181.196092</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>24176.722690</td>
-      <td>21874.177672</td>
-      <td>0.003000</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>2015-10-29</th>
-      <td>22819.94</td>
-      <td>22893.308762</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>24037.974200</td>
-      <td>21748.643324</td>
-      <td>0.003215</td>
+      <td>21190.255897</td>
+      <td>19172.136288</td>
+      <td>0.012436</td>
       <td>NaN</td>
     </tr>
     <tr>
-      <th>2015-10-30</th>
-      <td>22640.04</td>
-      <td>22643.865453</td>
+      <th>2016-03-15</th>
+      <td>20288.77</td>
+      <td>20048.151186</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>23776.058726</td>
-      <td>21511.672180</td>
-      <td>0.000169</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>2015-11-02</th>
-      <td>22370.04</td>
-      <td>22485.200206</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>23609.460216</td>
-      <td>21360.940196</td>
-      <td>0.005148</td>
+      <td>21050.558745</td>
+      <td>19045.743626</td>
+      <td>0.011860</td>
       <td>NaN</td>
     </tr>
     <tr>
-      <th>2015-11-03</th>
-      <td>22568.43</td>
-      <td>22693.309796</td>
+      <th>2016-03-16</th>
+      <td>20257.70</td>
+      <td>20004.068251</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>23827.975286</td>
-      <td>21558.644306</td>
-      <td>0.005533</td>
+      <td>21004.271663</td>
+      <td>19003.864838</td>
+      <td>0.012520</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2016-03-17</th>
+      <td>20503.81</td>
+      <td>20206.576017</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>21216.904818</td>
+      <td>19196.247216</td>
+      <td>0.014497</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2016-03-18</th>
+      <td>20671.63</td>
+      <td>20356.726340</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>21374.562657</td>
+      <td>19338.890023</td>
+      <td>0.015234</td>
       <td>NaN</td>
     </tr>
   </tbody>
