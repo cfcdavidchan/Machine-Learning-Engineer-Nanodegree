@@ -3,6 +3,7 @@ from environment import Agent, Environment
 from planner import RoutePlanner
 from simulator import Simulator
 import pandas as pd
+import numpy as np
 
 class LearningAgent(Agent):
     """An agent that learns to drive in the smartcab world."""
@@ -23,6 +24,8 @@ class LearningAgent(Agent):
         self.alpha = 0.8
         # Define the initialisation of Q
         self.q_init = 4.0
+        # Define the Epsilon for Q
+        self.epsilon = 0.01
 
     def reset(self, destination=None):
         self.planner.route_to(destination)
@@ -42,7 +45,9 @@ class LearningAgent(Agent):
         light = inputs['light']
         left = inputs['left']
         right = inputs['right']
-        state = "{} {} {} {}".format(light, left, right, self.next_waypoint)
+        oncoming = inputs['oncoming']
+        state = "{} {} {} {} {}".format(light, left, 
+                                     right, oncoming, self.next_waypoint)
         return state
 
     def max_q(self, next_state):
@@ -74,10 +79,14 @@ class LearningAgent(Agent):
         """
         A function to get the best action given a state
         """
+        actions = [None, 'forward', 'left', 'right']
         if self.state in self.Q.index:
             best_action = self.Q.loc[self.state].argmax()
+            random_action = random.choice(actions)
+            prob = [self.epsilon, (1-self.epsilon)]
+            best_action = np.random.choice([random_action,best_action], p=prob)
         else:
-            best_action = random.choice([None, 'forward', 'left', 'right'])
+            best_action = random.choice(actions)
         if best_action == 'None':
             best_action = None
         return best_action
@@ -91,8 +100,9 @@ class LearningAgent(Agent):
 
 
         # TODO: Update state
-        self.state = "{} {} {} {}".format(inputs['light'], inputs['left'], 
-                                       inputs['right'], self.next_waypoint)
+        self.state = "{} {} {} {} {}".format(inputs['light'], inputs['left'], 
+                                       inputs['right'], inputs['oncoming'],
+                                       self.next_waypoint)
         
         # TODO: Select action according to your policy
         action = self.get_action()
@@ -103,7 +113,7 @@ class LearningAgent(Agent):
         # TODO: Learn policy based on state, action, reward
         self.learn(action, reward)
 
-        # print self.Q
+        print self.Q
 
         # [debug]
         print ("LearningAgent.update(): deadline = {}, inputs = {}, action"
