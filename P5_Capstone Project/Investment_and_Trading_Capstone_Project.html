@@ -208,7 +208,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1">## Importing all necessary library and API</span>
@@ -352,7 +352,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># converting all data into log and finding the data with high correlation</span>
@@ -374,7 +374,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># calculating the EMA of the stock</span>
@@ -396,7 +396,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># calculating the RSI of the stock</span>
@@ -431,7 +431,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Plotting a stock data with EMA and RSI</span>
@@ -498,7 +498,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[91]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#splitting data into trainning set and testing set</span>
@@ -522,7 +522,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># determining the performance of the machine learning algorithms</span>
@@ -539,7 +539,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">predict_outcome</span><span class="p">(</span><span class="n">reg</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>   
@@ -573,7 +573,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># fiting the modeling with LinearRegression</span>
@@ -599,7 +599,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[107]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># ploting the result with testing and training result</span>
@@ -615,7 +615,9 @@ div#notebook {
 
     <span class="n">predict</span> <span class="o">=</span> <span class="n">train_value</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_value</span><span class="p">)</span>
     <span class="n">predict</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">predict</span><span class="p">)</span>
-    <span class="n">R_2</span> <span class="o">=</span> <span class="n">performance_metric</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">test_value</span><span class="p">)</span>
+    
+    <span class="n">R_2_train</span> <span class="o">=</span> <span class="n">performance_metric</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span><span class="n">train_value</span><span class="p">)</span>
+    <span class="n">R_2_test</span> <span class="o">=</span> <span class="n">performance_metric</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">test_value</span><span class="p">)</span>
     
     <span class="n">predict</span><span class="p">[</span><span class="s1">&#39;error_train_upper&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">train_value</span> <span class="o">*</span> <span class="mf">1.05</span>
     <span class="n">predict</span><span class="p">[</span><span class="s1">&#39;error_train_lower&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">train_value</span> <span class="o">*</span> <span class="mf">0.95</span>
@@ -641,7 +643,8 @@ div#notebook {
         <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Yellow&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">left</span><span class="o">=</span> <span class="mf">0.04</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span> <span class="mf">0.95</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span> <span class="mf">0.95</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span> <span class="mf">0.1</span> <span class="p">)</span>
-    <span class="k">print</span> <span class="s2">&quot;R Square = &quot;</span><span class="p">,</span> <span class="n">R_2</span>
+    <span class="k">print</span> <span class="s2">&quot;R Square in training set = &quot;</span><span class="p">,</span> <span class="n">R_2_train</span>
+    <span class="k">print</span> <span class="s2">&quot;R Square in testing set = &quot;</span><span class="p">,</span> <span class="n">R_2_test</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>    
     <span class="k">return</span> <span class="n">predict</span>
 </pre></div>
@@ -688,7 +691,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">stock</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;^HSCE&#39;</span><span class="p">,</span><span class="s1">&#39;0005.hk&#39;</span><span class="p">,</span><span class="s1">&#39;0700.hk&#39;</span><span class="p">,</span><span class="s1">&#39;1299.hk&#39;</span><span class="p">,</span><span class="s1">&#39;0941.hk&#39;</span><span class="p">]</span>
@@ -702,7 +705,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -716,7 +719,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[14]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
@@ -801,7 +804,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">trading_days</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -883,7 +886,7 @@ The lowest price of 0941.hk is 77.38
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
@@ -897,7 +900,7 @@ The lowest price of 0941.hk is 77.38
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
@@ -991,7 +994,7 @@ The lowest price of 0941.hk is 77.38
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">data_del</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;0700.hk&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -1006,7 +1009,7 @@ The lowest price of 0941.hk is 77.38
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[26]:</div>
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
@@ -1095,7 +1098,7 @@ The lowest price of 0941.hk is 77.38
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">plot_datasubplot</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -1263,7 +1266,7 @@ C:\Anaconda2\lib\site-packages\ipykernel\__main__.py:20: FutureWarning: pd.ewm_m
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">log_data_corr</span><span class="p">,</span> <span class="n">high_corr_asset</span> <span class="o">=</span> <span class="n">log_correlation_finder</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="s1">&#39;0005.hk&#39;</span><span class="p">,</span><span class="mf">0.8</span><span class="p">)</span>
@@ -1280,12 +1283,13 @@ C:\Anaconda2\lib\site-packages\ipykernel\__main__.py:20: FutureWarning: pd.ewm_m
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>             ^HSI     ^HSCE   0005.hk   1299.hk   0941.hk
-^HSI     1.000000  0.987888  0.902781  0.834383  0.879268
-^HSCE    0.987888  1.000000  0.918940  0.764996  0.867833
-0005.hk  0.902781  0.918940  1.000000  0.673328  0.798952
-1299.hk  0.834383  0.764996  0.673328  1.000000  0.656627
-0941.hk  0.879268  0.867833  0.798952  0.656627  1.000000 
+<pre>             ^HSI     ^HSCE   0005.hk   0700.hk   1299.hk   0941.hk
+^HSI     1.000000  0.987888  0.902781 -0.046186  0.834383  0.879270
+^HSCE    0.987888  1.000000  0.918940 -0.151924  0.764996  0.867839
+0005.hk  0.902781  0.918940  1.000000 -0.365464  0.673328  0.798962
+0700.hk -0.046186 -0.151924 -0.365464  1.000000  0.382243 -0.121679
+1299.hk  0.834383  0.764996  0.673328  0.382243  1.000000  0.656647
+0941.hk  0.879270  0.867839  0.798962 -0.121679  0.656647  1.000000 
 [&apos;^HSI&apos;, &apos;^HSCE&apos;]
 </pre>
 </div>
@@ -1318,7 +1322,7 @@ C:\Anaconda2\lib\site-packages\ipykernel\__main__.py:20: FutureWarning: pd.ewm_m
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[70]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="o">=</span> <span class="n">split_data</span><span class="p">(</span><span class="n">data_del</span><span class="p">,</span><span class="mf">0.7</span><span class="p">)</span>
@@ -1351,8 +1355,8 @@ Made predictions in 0.0000000000 seconds.
 
 DecisionTreeRegressor:
 R square for training set: 1.0000.
-Trained model in 0.0039999485 seconds
-R square for test set: 0.0523.
+Trained model in 0.0000000000 seconds
+R square for test set: 0.0768.
 Made predictions in 0.0000000000 seconds.
 </pre>
 </div>
@@ -1385,7 +1389,7 @@ Made predictions in 0.0000000000 seconds.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[71]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">reg</span> <span class="o">=</span><span class="n">fit_model</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
@@ -1423,7 +1427,7 @@ Made predictions in 0.0000000000 seconds.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[75]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">reg_unturn</span> <span class="o">=</span> <span class="n">linear_model</span><span class="o">.</span><span class="n">LinearRegression</span><span class="p">(</span><span class="n">normalize</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">copy_X</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">fit_intercept</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
@@ -1445,7 +1449,7 @@ Made predictions in 0.0000000000 seconds.
 R square for training set: 0.9936.
 Trained model in 0.0000000000 seconds
 R square for test set: 0.8709.
-Made predictions in 0.0009999275 seconds.
+Made predictions in 0.0000000000 seconds.
 </pre>
 </div>
 </div>
@@ -1456,7 +1460,7 @@ Made predictions in 0.0009999275 seconds.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[84]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">reg_turned</span> <span class="o">=</span> <span class="n">linear_model</span><span class="o">.</span><span class="n">LinearRegression</span><span class="p">(</span><span class="n">normalize</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">copy_X</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">fit_intercept</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
@@ -1476,7 +1480,7 @@ Made predictions in 0.0009999275 seconds.
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>LinearRegression:
 R square for training set: 0.9936.
-Trained model in 0.0009999275 seconds
+Trained model in 0.0000000000 seconds
 R square for test set: 0.8709.
 Made predictions in 0.0000000000 seconds.
 </pre>
@@ -1489,7 +1493,7 @@ Made predictions in 0.0000000000 seconds.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[93]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">X_train_6</span><span class="p">,</span> <span class="n">X_test_6</span><span class="p">,</span> <span class="n">y_train_6</span><span class="p">,</span> <span class="n">y_test_6</span> <span class="o">=</span> <span class="n">split_data</span><span class="p">(</span><span class="n">data_del</span><span class="p">,</span><span class="mf">0.6</span><span class="p">)</span>
@@ -1520,23 +1524,23 @@ Made predictions in 0.0000000000 seconds.
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>LinearRegression, 0.6 spliting ratio:
 R square for training set: 0.9974.
-Trained model in 0.0040001869 seconds
+Trained model in 0.0000000000 seconds
 R square for test set: 0.2603.
-Made predictions in 0.0009999275 seconds.
+Made predictions in 0.0000000000 seconds.
 
 
 LinearRegression, 0.7 spliting ratio:
 R square for training set: 0.9936.
-Trained model in 0.0000000000 seconds
+Trained model in 0.0039999485 seconds
 R square for test set: 0.8709.
-Made predictions in 0.0010001659 seconds.
+Made predictions in 0.0000000000 seconds.
 
 
 LinearRegression, 0.8 spliting ratio:
 R square for training set: 0.9930.
 Trained model in 0.0000000000 seconds
 R square for test set: 0.9631.
-Made predictions in 0.0009999275 seconds.
+Made predictions in 0.0040001869 seconds.
 
 
 LinearRegression, 0.9 spliting ratio:
@@ -1565,12 +1569,49 @@ Finally, the function will also return the dataframe of the stock price and the 
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, we have turned our model and we have chosen a suitable splitting ratio, let's try to predict the index level of Hang Seng index of the most recent data.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[108]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">graph_learing</span><span class="p">(</span><span class="n">reg</span><span class="p">,</span><span class="n">X_train_8</span><span class="p">,</span> <span class="n">X_test_8</span><span class="p">,</span> <span class="n">y_train_8</span><span class="p">,</span> <span class="n">y_test_8</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">target</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;^HSCE&#39;</span><span class="p">,</span><span class="s1">&#39;0005.hk&#39;</span><span class="p">,</span><span class="s1">&#39;1299.hk&#39;</span><span class="p">,</span><span class="s1">&#39;0941.hk&#39;</span><span class="p">]</span>
+<span class="n">data_target</span> <span class="o">=</span>  <span class="n">get_data</span><span class="p">(</span><span class="n">target</span><span class="p">,</span><span class="s1">&#39;2015-08-29&#39;</span><span class="p">,</span><span class="s1">&#39;2016-08-29&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">X_train_target</span><span class="p">,</span> <span class="n">X_test_target</span><span class="p">,</span> <span class="n">y_train_target</span><span class="p">,</span> <span class="n">y_test_target</span> <span class="o">=</span> <span class="n">split_data</span><span class="p">(</span><span class="n">data_target</span><span class="p">,</span><span class="mf">0.8</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">graph_learing</span><span class="p">(</span><span class="n">reg</span><span class="p">,</span><span class="n">X_train_target</span><span class="p">,</span> <span class="n">X_test_target</span><span class="p">,</span> <span class="n">y_train_target</span><span class="p">,</span> <span class="n">y_test_target</span><span class="p">)</span>
 <span class="n">result</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
@@ -1584,12 +1625,13 @@ Finally, the function will also return the dataframe of the stock price and the 
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>R Square =  0.963081758413
+<pre>R Square in training set =  0.993840648215
+R Square in testing set =  0.946543686515
 </pre>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[108]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
@@ -1610,63 +1652,63 @@ Finally, the function will also return the dataframe of the stock price and the 
   </thead>
   <tbody>
     <tr>
-      <th>2016-04-20</th>
-      <td>21236.31</td>
-      <td>21135.320177</td>
+      <th>2016-06-21</th>
+      <td>20668.44</td>
+      <td>20751.700130</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>22192.086186</td>
-      <td>20078.554168</td>
-      <td>0.004756</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>2016-04-21</th>
-      <td>21622.25</td>
-      <td>21530.343648</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>22606.860830</td>
-      <td>20453.826465</td>
-      <td>0.004251</td>
+      <td>21789.285136</td>
+      <td>19714.115123</td>
+      <td>0.004028</td>
       <td>NaN</td>
     </tr>
     <tr>
-      <th>2016-04-22</th>
-      <td>21467.04</td>
-      <td>21414.860122</td>
+      <th>2016-06-22</th>
+      <td>20795.12</td>
+      <td>20867.310908</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>22485.603128</td>
-      <td>20344.117116</td>
-      <td>0.002431</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>2016-04-25</th>
-      <td>21304.44</td>
-      <td>21258.447817</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>22321.370207</td>
-      <td>20195.525426</td>
-      <td>0.002159</td>
+      <td>21910.676453</td>
+      <td>19823.945362</td>
+      <td>0.003472</td>
       <td>NaN</td>
     </tr>
     <tr>
-      <th>2016-04-26</th>
-      <td>21407.27</td>
-      <td>21328.988286</td>
+      <th>2016-06-23</th>
+      <td>20868.34</td>
+      <td>20951.398784</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>22395.437700</td>
-      <td>20262.538871</td>
-      <td>0.003657</td>
+      <td>21998.968723</td>
+      <td>19903.828845</td>
+      <td>0.003980</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2016-06-24</th>
+      <td>20259.13</td>
+      <td>20393.040711</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>21412.692747</td>
+      <td>19373.388675</td>
+      <td>0.006610</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2016-06-27</th>
+      <td>20227.30</td>
+      <td>20463.524817</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>21486.701058</td>
+      <td>19440.348576</td>
+      <td>0.011679</td>
       <td>NaN</td>
     </tr>
   </tbody>
